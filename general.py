@@ -2,65 +2,41 @@ import telebot
 import config
 
 from telebot import apihelper
+
 bot = telebot.TeleBot(config.API_TOKEN)
 apihelper.proxy = {'https': 'socks5://54.38.195.161:45117'}
 with open('database.txt', 'r', encoding='utf-8') as f:
     data = f.read().splitlines()
 
+database_info()
 
-@bot.message_handler(commands=['start'])  # command to begin
+@bot.message_handler(commands=['start'])  # command to begin, try to switch line 12 with line 13 to make the fuction work while put in any place
 def start_message(message):
-    bot.send_message(message.chat.id, "Hi, let's be healthy and safe together!")  # Answer to the message
-    bot.send_message(message.chat.id, "Please enter the ingredients with comma(,) after each")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    bot.send_message(message.chat.id, "Hi, let's be healthy and safe together!""\n" # Answer to the message
+                     "If you want to check whether your products contains bad ingredients, enter 1""\n"   # 1 option to see whether a list of ingredients contain a "bad" ones (the ingredients with comma(,) after each)
+                     "If you want to know more about an ingredient enter 2""\n"
+                     "If you want to say goodbye than enter'Bye'")  # 2 option to see its description name
 
 
 @bot.message_handler(content_types=['text'])
-def send_text(message):#red marks from here
-    if message.text in data:
-        bot.send_message(message.chat.id, 'Yeah, we have this in the list')
-    elif message.text == 'Пока':
-        bot.send_message(message.chat.id, 'Прощай, создатель') #to here
-
-class Ingredient: #test from here
-    def __init__(self, name, description):
-        self.name = name
-        self.description = description
-
-
-
-list_of_all = []
-
-def database_info():
-    with open('database.txt') as f:
-        for line in f:
-            line = line.strip().split(';')
-            name = line[0]
-            description = line[1]
-            list_of_all.append(Ingredient(name, description))
-    return list_of_all
+def send_text(message):
+    if message.text == 1:#code for option 1
+        bot.send_message(message.chat.id, 'Enter the ingredients with comma(,) after each')
+        @bot.message_handler(content_types=['text'])#not sure
+        read_message()
+        View_ingredients()
+        start_message() #not sure
+    elif message.text == 2:#code for option 2
+        show_description()
+        start_message() #not sure
+    elif message.text == 'Bye'.lower():
+        bot.send_message(message.chat.id, 'Goodbye, creator!')
+    else:
+        bot.send_message(message.chat.id, 'You have entered the message I cannot understand. try again!')
+        start_message()
 
 
 
-def display_ings(message, ):
-    if message.text in data:
-        bot.send_message(message.chat.id, 'Yeah, we have this in the list')#to here
+
 
 bot.polling()
