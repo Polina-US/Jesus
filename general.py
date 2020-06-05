@@ -29,7 +29,7 @@ def send_text(message):
     elif message.text == 2:#code for option 2
         show_description()
         start_message() #not sure
-    elif message.text == 'Bye'.lower():
+    elif message.text == 'Bye':
         bot.send_message(message.chat.id, 'Goodbye, creator!')
     else:
         bot.send_message(message.chat.id, 'You have entered the message I cannot understand. try again!')
