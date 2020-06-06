@@ -9,10 +9,11 @@ class Ingredient:
 
 
 def database_info():
-    with open('database.txt') as f:
-        list_of_all = []
-        for line in f:
-            line = line.strip().split(';')
+    list_of_all = []
+    with open('database.txt', 'r', encoding='utf-8') as f:
+        lines = f.read().split('\n')
+        for line in lines:
+            line = line.split(';')
             name = line[0]
             description = line[1]
             danger = line[2]
@@ -48,13 +49,16 @@ def View_ingredients(message_list, list_of_all, bot, where_send):
         bot.send_message(where_send, "Everything is safe!")
 
 
-def show_description(list_of_all, message, bot):
-    messageis = False
-    for i in list_of_all:
-        if i.name == message.text:
-            messageis = True
-            bot.send_message(message.chat.id,"Name: ", i.name, "description: ", i.description)  # make them work for bot
-        elif messageis == False:
-            bot.send_message(message.chat.id, "Sorry! We do not have this ingredient in the database yet.")  # make work for bot
+def show_description1(sms, to_whom, which_bot, all_list):
+    tips = 0
+    for i in all_list:
+        if sms == i.name:
+            which_bot.send_message(to_whom, i.name + '\n' + i.description)
+            tips += 1
+    if tips == 0:
+        which_bot.send_message(to_whom, "Sorry! We do not have this ingredient in the database yet.")
+
+
+
 
 
