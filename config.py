@@ -26,11 +26,11 @@ def read_message():
         return message_list
 
 
-def View_ingredients(message_ans, classes_list, bot, where_send):
+def View_ingredients(message_list, list_of_all, bot, where_send):
     list_of_absent = []
     list_of_bad = []
-    for i in message_ans:
-        for r in classes_list:
+    for i in message_list:
+        for r in list_of_all:
             if i == r.name:
                 if r.danger == "-":
                     list_of_bad.append(r.name)
@@ -48,7 +48,7 @@ def View_ingredients(message_ans, classes_list, bot, where_send):
         bot.send_message(where_send, "Everything is safe!")
 
 
-def show_description():
+def show_description(list_of_all, message, bot):
     messageis = False
     for i in list_of_all:
         if i.name == message.text:

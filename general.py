@@ -9,6 +9,7 @@ bot = telebot.TeleBot(config.API_TOKEN)
 list_of_all = database_info()
 
 
+
 @bot.message_handler(commands=['start'])  # command to begin, try to switch line 12 with line 13 to make the fuction work while put in any place
 def start_message(message):
     bot.send_message(message.chat.id, "Hi, let's be healthy and safe together!""\n"  # Answer to the message
@@ -17,12 +18,15 @@ def start_message(message):
                                       "If you want to say goodbye than enter'Bye'")  # 2 option to see its description name
 
 @bot.message_handler(commands=['1'])
-def finding_danger(message):
-    to_whom = message.chat.id
+def option_one(message):
     bot.send_message(message.chat.id, 'Enter the ingredients with comma(,) after each')
-    ing = message.text.strip().split(",")
-    message_list = ing
-    View_ingredients(message_list, list_of_all, bot, to_whom)
+    @bot.message_handler(content_types=['text'])
+    def reading_the_answer(message):
+        ing = message.text.strip().split(",")
+        message_list = ing
+        View_ingredients(message_list, list_of_all, bot, message.chat.id )
+
+
 
 
 @bot.message_handler(commands=['2'])
@@ -55,3 +59,4 @@ def some_issues(message):
 
 
 bot.polling()
+
