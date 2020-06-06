@@ -21,7 +21,7 @@ def database_info():
     return list_of_all
 
 
-def View_ingredients1(message_list, list_of_all, bot, where_send):
+def View_ingredients(message_list, list_of_all, bot, where_send):
     message_list = message_list.replace(', ', ';')
     list_of_absent = []
     list_of_bad = []
@@ -39,37 +39,17 @@ def View_ingredients1(message_list, list_of_all, bot, where_send):
         if not check:
             list_of_absent.append(i)
     if len(list_of_bad) > 0 and len(list_of_absent) > 0:
-        bot.send_message(where_send, "Oops! These ingredients may be dangerous for you:" + '\n'.join(list_of_bad))
-        bot.send_message(where_send, "Sorry! These elements are not found in our database:" + '\n'.join(list_of_absent))
+        bot.send_message(where_send, "Oops! These ingredients may be dangerous for you:\n" + '\n'.join(list_of_bad))
+        bot.send_message(where_send, "Sorry! These elements are not found in our database:\n" + '\n'.join(list_of_absent))
     elif len(list_of_bad) > 0 and len(list_of_absent) == 0:
-        bot.send_message(where_send, "Oops! These ingredients may be dangerous for you:" + '\n'.join(list_of_bad))
+        bot.send_message(where_send, "Oops! These ingredients may be dangerous for you:\n" + '\n'.join(list_of_bad))
     elif len(list_of_bad) == 0 and len(list_of_absent) > 0:
-        bot.send_message(where_send, "Everything is safe!")
-        bot.send_message(where_send, "Sorry! These elements are not found in our database:" + '\n'.join(list_of_absent))
-    elif len(list_of_bad) == 0 and len(list_of_absent) > 0:
-        bot.send_message(where_send, "Everything is safe!")
-
-
-
-def View_ingredients(message_list, list_of_all, bot, where_send):
-    list_of_absent = []
-    list_of_bad = []
-    for i in message_list:
-        for r in list_of_all:
-            if i == r.name:
-                if r.danger == "-":
-                    list_of_bad.append(r.name)
-            if i != r.name:
-                list_of_absent.append(i)
-    if len(list_of_bad) > 0 and len(list_of_absent) > 0:
-        bot.send_message(where_send, "Oops! These ingredients may be dangerous for you:", list_of_bad)
-        bot.send_message(where_send, "Sorry! These elements are not found in our database:", list_of_absent)
-    elif len(list_of_bad) > 0 and len(list_of_absent) == 0:
-        bot.send_message(where_send, "Oops! These ingredients may be dangerous for you:", list_of_bad)
-    elif len(list_of_bad) == 0 and len(list_of_absent) > 0:
-        bot.send_message(where_send, "Everything is safe!")
-        bot.send_message(where_send, "Sorry! These elements are not found in our database:", list_of_absent)
-    elif len(list_of_bad) == 0 and len(list_of_absent) > 0:
+        if result == list_of_absent:
+            bot.send_message(where_send, "Sorry! These elements are not found in our database:\n" + '\n'.join(list_of_absent))
+        else:
+            bot.send_message(where_send, "Everything is safe!")
+            bot.send_message(where_send, "Sorry! These elements are not found in our database:\n" + '\n'.join(list_of_absent))
+    elif len(list_of_bad) == 0 and len(list_of_absent) == 0:
         bot.send_message(where_send, "Everything is safe!")
 
 
