@@ -1,8 +1,8 @@
 import telebot
 import config
 from config import database_info
-from config import View_ingredients
-from config import show_description1
+from config import show_description
+from config import View_ingredients1
 
 bot = telebot.TeleBot(config.API_TOKEN)
 list_of_all = database_info()
@@ -22,9 +22,8 @@ def option_one(message):
 
     @bot.message_handler(content_types=['text'])
     def reading_the_answer(message):
-        ing = message.text.strip().split(",")
-        message_list = ing
-        View_ingredients(message_list, list_of_all, bot, message.chat.id)
+        message_list = message.text
+        View_ingredients1(message_list, list_of_all, bot, message.chat.id)
 
 
 @bot.message_handler(commands=['2'])
@@ -36,7 +35,7 @@ def know_more(message):
         text = message.text
         text = text.title()
         to_where = message.chat.id
-        bot.send_message(message.chat.id, show_description1(text, to_where, bot, list_of_all))
+        bot.send_message(message.chat.id, show_description(text, to_where, bot, list_of_all))
 
 
 bot.polling()
